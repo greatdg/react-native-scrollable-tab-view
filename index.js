@@ -1,8 +1,8 @@
 const React = require('react');
 const {
-  PropTypes,
   Component,
 } = React;
+const PropTypes = require('prop-types');
 const { ViewPropTypes } = ReactNative = require('react-native');
 const {
   Dimensions,
