@@ -10,7 +10,7 @@ import {
 
 import Button from './Button';
 
-class DefaultTabBar extends React.component {
+class DefaultTabBar extends React.Component {
 
   static propTypes = {
     goToPage: PropTypes.func,
