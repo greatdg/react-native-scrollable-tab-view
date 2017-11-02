@@ -44,9 +44,11 @@ class ScrollableTabBar extends React.Component {
     underlineStyle: {},
   }
 
-  getInitialState() {
+  constructor(props) {
+    super(props);
+
     this._tabsMeasurements = [];
-    return {
+    this.state = {
       _leftTabUnderline: new Animated.Value(0),
       _widthTabUnderline: new Animated.Value(0),
       _containerWidth: null,
@@ -57,7 +59,7 @@ class ScrollableTabBar extends React.Component {
     this.props.scrollValue.addListener(this.updateView);
   }
 
-  updateView(offset) {
+  updateView = (offset) => {
     const position = Math.floor(offset.value);
     const pageOffset = offset.value % 1;
     const tabCount = this.props.tabs.length;
@@ -73,14 +75,14 @@ class ScrollableTabBar extends React.Component {
     }
   }
 
-  necessarilyMeasurementsCompleted(position, isLastTab) {
+  necessarilyMeasurementsCompleted = (position, isLastTab) => {
     return this._tabsMeasurements[position] &&
       (isLastTab || this._tabsMeasurements[position + 1]) &&
       this._tabContainerMeasurements &&
       this._containerMeasurements;
   }
 
-  updateTabPanel(position, pageOffset) {
+  updateTabPanel = (position, pageOffset) => {
     const containerWidth = this._containerMeasurements.width;
     const tabWidth = this._tabsMeasurements[position].width;
     const nextTabMeasurements = this._tabsMeasurements[position + 1];
@@ -102,7 +104,7 @@ class ScrollableTabBar extends React.Component {
     }
   }
 
-  updateTabUnderline(position, pageOffset, tabCount) {
+  updateTabUnderline = (position, pageOffset, tabCount) => {
     const lineLeft = this._tabsMeasurements[position].left;
     const lineRight = this._tabsMeasurements[position].right;
 
@@ -121,7 +123,7 @@ class ScrollableTabBar extends React.Component {
     }
   }
 
-  renderTab(name, page, isTabActive, onPressHandler, onLayoutHandler) {
+  renderTab = (name, page, isTabActive, onPressHandler, onLayoutHandler) => {
     const { activeTextColor, inactiveTextColor, textStyle } = this.props;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
@@ -142,7 +144,7 @@ class ScrollableTabBar extends React.Component {
     </Button>;
   }
 
-  measureTab(page, event) {
+  measureTab = (page, event) => {
     const { x, width, height } = event.nativeEvent.layout;
     this._tabsMeasurements[page] = {left: x, right: x + width, width, height };
     this.updateView({value: this.props.scrollValue._value });
@@ -197,7 +199,7 @@ class ScrollableTabBar extends React.Component {
     }
   }
 
-  onTabContainerLayout(e) {
+  onTabContainerLayout = (e) => {
     this._tabContainerMeasurements = e.nativeEvent.layout;
     let width = this._tabContainerMeasurements.width;
     if (width < WINDOW_WIDTH) {
@@ -207,7 +209,7 @@ class ScrollableTabBar extends React.Component {
     this.updateView({value: this.props.scrollValue._value });
   }
 
-  onContainerLayout(e) {
+  onContainerLayout = (e) => {
     this._containerMeasurements = e.nativeEvent.layout;
     this.updateView({value: this.props.scrollValue._value });
   }

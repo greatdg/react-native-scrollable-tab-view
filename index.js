@@ -59,7 +59,7 @@ class ScrollableTabView extends React.Component {
   }
 
   constructor(props) {
-    super(props)
+    super(props);
 
     const containerWidth = Dimensions.get('window').width;
     let scrollValue;

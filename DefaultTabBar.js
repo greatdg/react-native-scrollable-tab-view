@@ -31,7 +31,7 @@ class DefaultTabBar extends React.Component {
     backgroundColor: null,
   }
 
-  renderTab(name, page, isTabActive, onPressHandler) {
+  renderTab = (name, page, isTabActive, onPressHandler) => {
     const { activeTextColor, inactiveTextColor, textStyle } = this.props;
     const textColor = isTabActive ? activeTextColor : inactiveTextColor;
     const fontWeight = isTabActive ? 'bold' : 'normal';
