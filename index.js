@@ -58,7 +58,9 @@ class ScrollableTabView extends React.Component {
     prerenderingSiblingsNumber: 0,
   }
 
-  getInitialState() {
+  constructor(props) {
+    super(props)
+
     const containerWidth = Dimensions.get('window').width;
     let scrollValue;
     let scrollXIOS;
@@ -95,7 +97,7 @@ class ScrollableTabView extends React.Component {
       });
     }
 
-    return {
+    this.state = {
       currentPage: this.props.initialPage,
       scrollValue,
       scrollXIOS,
@@ -125,7 +127,7 @@ class ScrollableTabView extends React.Component {
     }
   }
 
-  goToPage(pageNumber) {
+  goToPage = (pageNumber) => {
     if (Platform.OS === 'ios') {
       const offset = pageNumber * this.state.containerWidth;
       if (this.scrollView) {
@@ -148,7 +150,7 @@ class ScrollableTabView extends React.Component {
     });
   }
 
-  renderTabBar(props) {
+  renderTabBar = (props) => {
     if (this.props.renderTabBar === false) {
       return null;
     } else if (this.props.renderTabBar) {
@@ -158,12 +160,12 @@ class ScrollableTabView extends React.Component {
     }
   }
 
-  updateSceneKeys({ page, children = this.props.children, callback = () => {} }) {
+  updateSceneKeys = ({ page, children = this.props.children, callback = () => {} }) => {
     let newKeys = this.newSceneKeys({ previousKeys: this.state.sceneKeys, currentPage: page, children });
     this.setState({currentPage: page, sceneKeys: newKeys }, callback);
   }
 
-  newSceneKeys({ previousKeys = [], currentPage = 0, children = this.props.children }) {
+  newSceneKeys = ({ previousKeys = [], currentPage = 0, children = this.props.children }) => {
     let newKeys = [];
     this._children(children).forEach((child, idx) => {
       let key = this._makeSceneKey(child, idx);
@@ -200,7 +202,7 @@ class ScrollableTabView extends React.Component {
     return (value) => listeners.forEach(listener => listener({ value }));
   }
 
-  _shouldRenderSceneKey(idx, currentPageKey) {
+  _shouldRenderSceneKey = (idx, currentPageKey) => {
     let numOfSibling = this.props.prerenderingSiblingsNumber;
     return (idx < (currentPageKey + numOfSibling + 1) &&
       idx > (currentPageKey - numOfSibling - 1));
@@ -214,7 +216,7 @@ class ScrollableTabView extends React.Component {
     return child.props.tabLabel + '_' + idx;
   }
 
-  renderScrollableContent() {
+  renderScrollableContent = () => {
     if (Platform.OS === 'ios') {
       const scenes = this._composeScenes();
       return <Animated.ScrollView
@@ -269,7 +271,7 @@ class ScrollableTabView extends React.Component {
     }
   }
 
-  _composeScenes() {
+  _composeScenes = () => {
     return this._children().map((child, idx) => {
       let key = this._makeSceneKey(child, idx);
       return <SceneComponent
@@ -282,7 +284,7 @@ class ScrollableTabView extends React.Component {
     });
   }
 
-  _onMomentumScrollBeginAndEnd(e) {
+  _onMomentumScrollBeginAndEnd = (e) => {
     const offsetX = e.nativeEvent.contentOffset.x;
     const page = Math.round(offsetX / this.state.containerWidth);
     if (this.state.currentPage !== page) {
@@ -290,7 +292,7 @@ class ScrollableTabView extends React.Component {
     }
   }
 
-  _updateSelectedPage(nextPage) {
+  _updateSelectedPage = (nextPage) => {
     let localNextPage = nextPage;
     if (typeof localNextPage === 'object') {
       localNextPage = nextPage.nativeEvent.position;
@@ -303,7 +305,7 @@ class ScrollableTabView extends React.Component {
     });
   }
 
-  _onChangeTab(prevPage, currentPage) {
+  _onChangeTab = (prevPage, currentPage) => {
     this.props.onChangeTab({
       i: currentPage,
       ref: this._children()[currentPage],
@@ -311,7 +313,7 @@ class ScrollableTabView extends React.Component {
     });
   }
 
-  _onScroll(e) {
+  _onScroll = (e) => {
     if (Platform.OS === 'ios') {
       const offsetX = e.nativeEvent.contentOffset.x;
       if (offsetX === 0 && !this.scrollOnMountCalled) {
@@ -325,7 +327,7 @@ class ScrollableTabView extends React.Component {
     }
   }
 
-  _handleLayout(e) {
+  _handleLayout = (e) => {
     const { width } = e.nativeEvent.layout;
 
     if (Math.round(width) !== Math.round(this.state.containerWidth)) {
