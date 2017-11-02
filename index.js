@@ -12,6 +12,9 @@ import {
   InteractionManager,
 } from 'react-native';
 
+import reactMixin from 'react-mixin';
+import TimerMixin from 'react-timer-mixin';
+
 import SceneComponent from './SceneComponent';
 import DefaultTabBar from './DefaultTabBar';
 import ScrollableTabBar from './ScrollableTabBar';
@@ -387,6 +390,8 @@ class ScrollableTabView extends React.Component {
     </View>;
   }
 }
+
+reactMixin(ScrollableTabView.prototype, TimerMixin);
 
 const styles = StyleSheet.create({
   container: {
